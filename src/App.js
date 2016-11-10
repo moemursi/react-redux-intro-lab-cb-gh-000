@@ -19,27 +19,6 @@ class App extends Component {
     this.props.actions.resetGame()
   }
 
-    // renderWinner() {
-    //   return (
-    //     <div>
-    //       <p>{this.props.game.winner}</p>
-    //       <p>your score: {this.userTotal()}</p>
-    //       <p>computer score: {this.computerTotal()}</p>
-    //       <p><button onClick={this.playAgain} className="btn btn-large">play again</button></p>
-    //     </div>
-    //   )
-    // }
-
-    // renderButton() {
-    //   return (
-    //     <div>
-    //       <p>your total: {this.userTotal()}</p>
-    //       <p><button className="btn btn-large" onClick={this.hitMe}>hit me</button></p>
-    //     </div>
-    //   )
-    // }
-  
-
   render() {
     return (
       <div className="App col-lg-12" style={{textAlign: 'center'}}>
