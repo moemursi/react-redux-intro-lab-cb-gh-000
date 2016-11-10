@@ -2,50 +2,42 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as gameActions from './actions/gameActions';
-
+import Game from './Game'
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.hitMe = this.hitMe.bind(this)
-    this.playAgain = this.playAgain.bind(this)
+    this.executeRound = this.executeRound.bind(this)
+    this.resetGame = this.resetGame.bind(this)
   }
 
-  hitMe(){
+  executeRound(){
     this.props.actions.executeRound()
   }
 
-  userTotal() {
-    return this.props.game.userCards.reduce((acc, card) => {return acc + card.value}, 0)
-  }
-
-  computerTotal() {
-    return this.props.game.aiCards.reduce((acc, card) => {return acc + card.value}, 0)
-  }
-
-  playAgain() {
+  resetGame() {
     this.props.actions.resetGame()
   }
 
-  renderWinner() {
-    return (
-      <div>
-        <p>{this.props.game.winner}</p>
-        <p>your score: {this.userTotal()}</p>
-        <p>computer score: {this.computerTotal()}</p>
-        <p><button onClick={this.playAgain} className="btn btn-large">play again</button></p>
-      </div>
-    )
-  }
+    // renderWinner() {
+    //   return (
+    //     <div>
+    //       <p>{this.props.game.winner}</p>
+    //       <p>your score: {this.userTotal()}</p>
+    //       <p>computer score: {this.computerTotal()}</p>
+    //       <p><button onClick={this.playAgain} className="btn btn-large">play again</button></p>
+    //     </div>
+    //   )
+    // }
 
-  renderButton() {
-    return (
-      <div>
-        <p>your total: {this.userTotal()}</p>
-        <p><button className="btn btn-large" onClick={this.hitMe}>hit me</button></p>
-      </div>
-    )
-  }
+    // renderButton() {
+    //   return (
+    //     <div>
+    //       <p>your total: {this.userTotal()}</p>
+    //       <p><button className="btn btn-large" onClick={this.hitMe}>hit me</button></p>
+    //     </div>
+    //   )
+    // }
   
 
   render() {
@@ -54,11 +46,12 @@ class App extends Component {
         <div>
           <h2>Welcome to The Flatiron Casino</h2>
         </div>
-        <div className="col-lg-12">
-          {this.props.game.winner ? this.renderWinner() : this.renderButton()}  
-        </div>
-        <div className="col-lg-12">
-        </div>
+        <Game 
+          winner={this.props.game.winner} 
+          userCards={this.props.game.userCards} 
+          aiCards={this.props.game.aiCards} 
+          triggerExecuteRound={this.executeRound} 
+          triggerResetGame={this.resetGame} />
       </div>
     );
   }
