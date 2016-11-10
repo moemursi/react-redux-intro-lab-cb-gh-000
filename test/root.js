@@ -5,8 +5,10 @@ import path from 'path';
 import { transformFileSync } from 'babel-core';
 
 import fs from 'fs';
+import {shallow} from 'enzyme'
 
 const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'));
+global.expect = expect;
 global.document = jsdom.jsdom(html);
 global.window = document.defaultView;
 

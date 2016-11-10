@@ -1,3 +1,5 @@
+import gameReducer from '../src/reducers/gameReducer'
+
 const initialState = {
   game: {
     winner: null,
@@ -60,35 +62,52 @@ const initialState = {
   }
 }
 
-export default function gameReducer(state=initialState.game, action) {
-  switch(action.type) {
-    case 'EXECUTE_ROUND':
-      const newDeck =[...state.deck]
-      var randomIndex = Math.floor(Math.random() * state.deck.length)
-      var card = newDeck.splice(randomIndex, 1)[0]
-      const newUserCards = [...state.userCards, card]
-      
-      var randomIndex = Math.floor(Math.random() * state.deck.length)
-      var card = newDeck.splice(randomIndex, 1)[0]
-      const newAiCards = [...state.aiCards, card]
-
-      const userTotal = newUserCards.reduce((acc, card) => acc + card.value, 0)
-      const aiTotal = newAiCards.reduce((acc, card) => acc + card.value, 0)
-      if (userTotal == 21) {
-        return Object.assign({}, state, {userCards: newUserCards, aiCards: newAiCards, deck: newDeck, winner: 'You win!'})
-      } else if (aiTotal == 21) {
-        return Object.assign({}, state, {userCards: newUserCards, aiCards: newAiCards, deck: newDeck, winner: 'Computer wins!'})
-      } else if (userTotal > 21) {
-        return Object.assign({}, state, {userCards: newUserCards, aiCards: newAiCards, deck: newDeck, winner: 'You loose!'})
-      } else if (aiTotal > 21) {
-        return Object.assign({}, state, {userCards: newUserCards, aiCards: newAiCards, deck: newDeck, winner: 'You win!'})
-      } else {
-        return Object.assign({}, state, {userCards: newUserCards, aiCards: newAiCards, deck: newDeck})
-      }
-    case 'RESET_GAME':
-      return Object.assign({}, initialState.game)
-    default: 
-      return state;
-  }
+function hasSameProps( obj1, obj2 ) {
+  return Object.keys( obj1 ).every( function( prop ) {
+    return obj2.hasOwnProperty( prop );
+  });
 }
+
+
+describe('game reducer', () => {
+  it('should return the initial state', () => {
+    const newState = gameReducer(undefined, {})
+    expect(hasSameProps(newState, initialState.game)).toEqual(true)
+  })
+
+  it('should handle EXECUTE_ROUND by dealing a card to the user, dealing a card to the computer, and checking to see if there is a winner yet', () => {
+    
+    const newState = gameReducer(undefined, {type: 'EXECUTE_ROUND'})
+    expect(newState.userCards.length).toEqual(1)
+    expect(newState.aiCards.length).toEqual(1)
+    expect(newState.deck.length).toEqual(50)
+    expect(newState.winner).toEqual(null)
+  })
+
+  it('should handle RESET_GAME', () => {
+    const newState = gameReducer(undefined, {type: 'RESET_GAME'})
+    expect(newState.userCards).toEqual([])
+    expect(newState.aiCards).toEqual([])
+    expect(newState.deck.length).toEqual(52)
+    expect(newState.deck).toEqual(initialState.game.deck)
+    expect(newState.winner).toEqual(null)
+
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
