@@ -24,7 +24,7 @@ const Game = (props) => {
         <p>{props.winner}</p>
         <p>your score: {userTotal()}</p>
         <p>computer score: {computerTotal()}</p>
-        <p><button onClick={playAgain} className="btn btn-large">play again</button></p>
+        <p><button onClick={playAgain} className="btn btn-large reset">play again</button></p>
       </div>
     )
   }
@@ -33,7 +33,7 @@ const Game = (props) => {
     return (
       <div>
         <p>your total: {userTotal()}</p>
-        <p><button className="btn btn-large" onClick={hitMe}>hit me</button></p>
+        <p><button className="btn btn-large play" onClick={hitMe}>hit me</button></p>
       </div>
     )
   }

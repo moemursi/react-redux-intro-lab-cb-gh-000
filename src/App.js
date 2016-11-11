@@ -7,15 +7,15 @@ import Game from './Game'
 class App extends Component {
   constructor(props) {
     super(props);
-    this.executeRound = this.executeRound.bind(this)
-    this.resetGame = this.resetGame.bind(this)
+    this.playRound = this.playRound.bind(this)
+    this.reset = this.reset.bind(this)
   }
 
-  executeRound(){
+  playRound(){
     this.props.actions.executeRound()
   }
 
-  resetGame() {
+  reset() {
     this.props.actions.resetGame()
   }
 
@@ -29,8 +29,8 @@ class App extends Component {
           winner={this.props.game.winner} 
           userCards={this.props.game.userCards} 
           aiCards={this.props.game.aiCards} 
-          triggerExecuteRound={this.executeRound} 
-          triggerResetGame={this.resetGame} />
+          triggerExecuteRound={this.playRound} 
+          triggerResetGame={this.reset} />
       </div>
     );
   }

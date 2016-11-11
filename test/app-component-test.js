@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow, mount} from 'enzyme'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import ReactTestUtils from 'react-addons-test-utils'
+import sinon from 'sinon'
 import App from '../src/App'
 import Game from '../src/Game'
 
@@ -79,7 +80,22 @@ function setup() {
   }
 }
 
+function setUpMount() {
+  const mockStore = configureStore([]);
+  const store = mockStore(initialState);
+  const component = mount(<App store={store}/>)
+  return {
+    component
+  }
+}
+
 describe('<App/>', function () {
+
+  it('should have a prop, `game`, set via mapStateToProps', function() {
+    const {wrapper} = setup()
+
+    expect(wrapper.props().game).toEqual(initialState.game)
+  })
 
   it('should render the Game component as a child', function () {
     const { wrapper } = setup()
@@ -92,6 +108,24 @@ describe('<App/>', function () {
     expect(wrapper.unrendered.type.displayName).toEqual('Connect(App)')
   })
 
+  it('should use mapDispatchToProps to pass the action creator functions to the component under this.props.actions', function() {
+    const { wrapper } = setup()
+    expect(Object.keys(wrapper.node.props.actions)).toEqual(["executeRound", "resetGame"])
+  })
+
+  it('should dispatch the executeRound action creator when the components playRound function is called', function() {
+    const {wrapper} = setup()
+    const executeRound = sinon.spy(wrapper.shallow().instance().props.actions, 'executeRound')
+    wrapper.shallow().instance().playRound()    
+    expect(executeRound.calledOnce).toEqual(true)
+  })
+
+  it('should dispatch the resetGame action creator when the components reset function is called', function() {
+    const {wrapper} = setup()
+    const resetGame = sinon.spy(wrapper.shallow().instance().props.actions, 'resetGame')
+    wrapper.shallow().instance().reset()    
+    expect(resetGame.calledOnce).toEqual(true)
+  })
  
 });
 
