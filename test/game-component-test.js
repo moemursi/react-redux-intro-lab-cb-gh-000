@@ -363,36 +363,50 @@ describe('<Game/>', function () {
 
   })
 
-  it('should have a function `userTotal` that calculates the total user points', function() {
-
-  })
-
-  it('should have a function `computerTotal` that calculates the total computer points', function() {
-    
-  })
-
   it('should display the user total and a button with a class of "play" and text of "hit me" if the game is not yet over', function() {
-
+    const gameComponent = shallow(<Game {...initialState.game} />)
+    expect(gameComponent.find('.play').text()).toBe('hit me')
+    expect(gameComponent.find('.user-total').text()).toBe('your total: 0')
   })
 
   it('should display the user total and the computer total and the button with a class of "reset" and the text of "play again" if the game is over', function() {
-
+    const gameComponent = shallow(<Game {...stateWithComputerWinnerBecause21Points.game} />)
+    expect(gameComponent.find('.reset').text()).toBe('play again')
+    expect(gameComponent.find('.user-total').text()).toBe('your score: 0')
+    expect(gameComponent.find('.computer-total').text()).toBe('computer score: 21')
+    expect(gameComponent.find('.winner').text()).toBe('Computer wins!')
   })
 
   it('should display the text "You win!" if the user won by hitting 21 points', function() {
-
+    const gameComponent = shallow(<Game {...stateWithUserWinnerBecause21Points.game} />)
+    expect(gameComponent.find('.reset').text()).toBe('play again')
+    expect(gameComponent.find('.user-total').text()).toBe('your score: 21')
+    expect(gameComponent.find('.computer-total').text()).toBe('computer score: 0')
+    expect(gameComponent.find('.winner').text()).toBe('You win!')
   })
 
   it('should display the text "You win!" if the user won as a result of the computer exceeding 21 points', function() {
-    
+    const gameComponent = shallow(<Game {...stateWithUserWinnerBecauseComputerGreaterThan21Points.game} />)
+    expect(gameComponent.find('.reset').text()).toBe('play again')
+    expect(gameComponent.find('.user-total').text()).toBe('your score: 0')
+    expect(gameComponent.find('.computer-total').text()).toBe('computer score: 22')
+    expect(gameComponent.find('.winner').text()).toBe('You win!')
   })
 
   it('should display the text "You loose!" if the user exceeds 21 points', function() {
-    
+    const gameComponent = shallow(<Game {...stateWithUserLoserBecauseMoreThan21Points.game} />)
+    expect(gameComponent.find('.reset').text()).toBe('play again')
+    expect(gameComponent.find('.user-total').text()).toBe('your score: 22')
+    expect(gameComponent.find('.computer-total').text()).toBe('computer score: 0')
+    expect(gameComponent.find('.winner').text()).toBe('You lose :(')
   })
 
   it('should display the text "Computer wins!" if the computer won by hitting 21 points', function() {
-    
+    const gameComponent = shallow(<Game {...stateWithComputerWinnerBecause21Points.game} />)
+    expect(gameComponent.find('.reset').text()).toBe('play again')
+    expect(gameComponent.find('.user-total').text()).toBe('your score: 0')
+    expect(gameComponent.find('.computer-total').text()).toBe('computer score: 21')
+    expect(gameComponent.find('.winner').text()).toBe('Computer wins!')
   })
 
   it('invokes the `triggerExecuteRound` function from props when the button with a class of "play" is clicked', function() {
@@ -405,7 +419,6 @@ describe('<Game/>', function () {
   })
 
   it('invokes the `triggerResetGame` function from props when the button with a class of "reset" is clicked', function() {
-    const {wrapper} = setup()
     const triggerresetGameSpy = sinon.spy()
     const gameComponent = shallow(<Game {...stateWithUserWinnerBecause21Points.game} triggerResetGame={triggerresetGameSpy}/>)
     gameComponent.find('.reset').simulate('click')

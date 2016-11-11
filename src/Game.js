@@ -21,9 +21,9 @@ const Game = (props) => {
   function renderWinner() {
     return (
       <div>
-        <p>{props.winner}</p>
-        <p>your score: {userTotal()}</p>
-        <p>computer score: {computerTotal()}</p>
+        <p className='winner'>{props.winner}</p>
+        <p className='user-total'>your score: {userTotal()}</p>
+        <p className='computer-total'>computer score: {computerTotal()}</p>
         <p><button onClick={playAgain} className="btn btn-large reset">play again</button></p>
       </div>
     )
@@ -32,7 +32,7 @@ const Game = (props) => {
   function renderPlayButton() {
     return (
       <div>
-        <p>your total: {userTotal()}</p>
+        <p className="user-total">your total: {userTotal()}</p>
         <p><button className="btn btn-large play" onClick={hitMe}>hit me</button></p>
       </div>
     )
