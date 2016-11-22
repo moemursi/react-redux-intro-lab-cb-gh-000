@@ -11,11 +11,11 @@ Build a Redux implementation of a simple blackjack game!
 
 ## Instructions
 
-Your gaol is to build a very simple version of Blackjack. In our version of the game, a user should be able to click a button, "hit me", to get a new card dealt to them. When they click this button, their total points will be incremented as a result of this new card being dealt to them. 
+Your goal is to build a very simple version of Blackjack. In our version of the game, a user should be able to click a button, "hit me", to get a new card dealt to them. When they click this button, their total points will be incremented as a result of this new card being dealt to them.
 
 Every time a card is dealt to the user, a card should be dealt to our AI player as well. 
 
-A user wins if they hit exactly 21 points or if the AI player looses by exceeding 21 points. The user loses if they exceed 21 points or if the AI player wins by hitting exactly 21 points. 
+A user wins if they hit exactly 21 points or if the AI player loses by exceeding 21 points. The user loses if they exceed 21 points or if the AI player wins by hitting exactly 21 points.
 
 It should work like this:
 
@@ -101,7 +101,7 @@ const initialState = {
 
 ### Step 1: Buid the Store, Reducer and Action Creators
 
-First things first, use the Redux `configureStore` function to create a store with a reducer. Build a reducer, `gameReducer` that can respond to the following actions:
+First things first, use the Redux `configureStore` function to create a store with a reducer. Build a reducer, `gameReducer`, that can respond to the following actions:
 
 * `executeRound`
 * `resetGame`
