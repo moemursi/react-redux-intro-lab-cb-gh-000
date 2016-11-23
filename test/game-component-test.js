@@ -393,7 +393,7 @@ describe('<Game/>', function () {
     expect(gameComponent.find('.winner').text()).toBe('You win!')
   })
 
-  it('should display the text "You loose!" if the user exceeds 21 points', function() {
+  it('should display the text "You lose!" if the user exceeds 21 points', function() {
     const gameComponent = shallow(<Game {...stateWithUserLoserBecauseMoreThan21Points.game} />)
     expect(gameComponent.find('.reset').text()).toBe('play again')
     expect(gameComponent.find('.user-total').text()).toBe('your score: 22')
