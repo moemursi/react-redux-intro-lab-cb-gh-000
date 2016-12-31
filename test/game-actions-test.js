@@ -90,9 +90,10 @@ describe('game actions', () => {
   
   describe('hitAI()', function(){
     it('returns with `type` "HIT_AI"', function(){
-      expect(gameActions.hitAI(deck, []).type).toEqual("HIT_AI")
+      expect(gameActions.hitAI(this.deck, []).type).toEqual("HIT_AI")
     })
     it('returns with a `payload` with one less in the `deck`', function(){
+      console.log(`The deck length is ${this.deck.length}`)
       const hitAiPayload = gameActions.hitAI(this.deck, []).payload;
       expect(hitAiPayload.deck.length).toEqual(this.deck.length - 1);
     })
@@ -100,6 +101,21 @@ describe('game actions', () => {
       const aiCards = [];
       const hitAiPayload = gameActions.hitAI(this.deck, aiCards).payload;
       expect(hitAiPayload.aiCards.length).toEqual(aiCards.length + 1)
+    })
+  })
+  
+  describe('hitUser()', function(){
+    it('returns with `type` "HIT_USER"', function(){
+      expect(gameActions.hitUser(this.deck, []).type).toEqual("HIT_USER")
+    })
+    it('returns with a `payload` with one less in the `deck`', function(){
+      const hitUserPayload = gameActions.hitUser(this.deck, []).payload;
+      expect(hitUserPayload.deck.length).toEqual(this.deck.length - 1);
+    })
+    it('returns with a `payload` with one more in the `userCards`', function(){
+      const userCards = [];
+      const hitUserPayload = gameActions.hitUser(this.deck, userCards).payload;
+      expect(hitUserPayload.aiCards.length).toEqual(userCards.length + 1)
     })
   })
 })
