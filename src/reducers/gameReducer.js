@@ -61,6 +61,38 @@ const initialState = {
 }
 
 export default function gameReducer(state=initialState.game, action) {
-  
+  switch(action.type){
+    case 'EXECUTE_ROUND':
+      
+      let randNum = Math.floor(Math.random() * state.deck.length);
+      const newUserCards = [...state.userCards, Object.assign({}, state.deck[randNum])]
+      let newDeck = state.deck.filter(c => c.name !== state.deck[randNum].name)
+      
+      randNum = Math.floor(Math.random() * newDeck.length);
+      const newAiCards = [...state.aiCards, Object.assign({}, newDeck[randNum])]
+      newDeck = newDeck.filter(c => c.name !== newDeck[randNum].name)
+      
+      const userScore = newUserCards.reduce((sum, card) => sum + card.value, 0)
+      const aiScore = newAiCards.reduce((sum, card) => sum + card.value, 0)
+      
+      let newWinner = null;
+      
+      if(userScore == 21 || aiScore > 21){
+        newWinner = 'USER';
+      }else if(userScore > 21 || aiScore == 21){
+        newWinner = 'AI';
+      }
+      
+      return {
+        deck: newDeck, 
+        userCards: newUserCards,
+        aiCards: newAiCards,
+        winner: newWinner
+      }
+    case "RESET_GAME":
+      return Object.assign({}, initialState.game)
+    default:
+      return state;
+  }
 }
 
