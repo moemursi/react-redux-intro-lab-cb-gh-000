@@ -69,7 +69,6 @@ function hasSameProps( obj1, obj2 ) {
 }
 
 describe('gameReducer', () => {
-  
   beforeEach(function(){
     this.initialState = {
       game: {
@@ -134,15 +133,15 @@ describe('gameReducer', () => {
     }
   })
   
-  describe('default case', () => {
-    it('should return the initial state', () => {
+  describe('default case', function() {
+    it('should return the initial state', function() {
       const newState = gameReducer(undefined, {})
       expect(hasSameProps(newState, this.initialState.game)).toEqual(true)
     })
   })
   
-  describe('"START_GAME" case', () => {
-    beforeEach(()=>{
+  describe('"START_GAME" case', function() {
+    beforeEach(function() {
       this.startGame = {
         type: "START_GAME",
         payload:{
@@ -159,20 +158,20 @@ describe('gameReducer', () => {
       }
     })
     
-    it('should deal two cards to the user, two to the ai', () => {
+    it('should deal two cards to the user, two to the ai', function() {
       const newState = gameReducer(this.initialState.game, this.startGame)
       expect(newState.userCards.length).toEqual(2)
     })
-    it('should return a deck with 48 cards and no winner', () => {
+    it('should return a deck with 48 cards and no winner', function() {
       const newState = gameReducer(this.initialState.game, this.startGame)
       expect(newState.deck.length).toEqual(48)
       expect(newState.winner).toEqual(null)
     })
   })
 
-  describe('"HIT_USER" case', () =>{
+  describe('"HIT_USER" case', function() {
     
-    beforeEach(()=>{
+    beforeEach(function() {
       this.hitUser = {
         type: "HIT_USER",
         payload: {
@@ -182,22 +181,22 @@ describe('gameReducer', () => {
       }
     })
     
-    it('should remove one card from the deck and add it to the userCards', () => {
+    it('should remove one card from the deck and add it to the userCards', function() {
       const newState = gameReducer(this.initialState.game, this.hitUser)
       expect(newState.deck.length).toEqual(51)
       expect(newState.userCards.length).toEqual(1)
     })
     
-    it('should not modify the aiCards or the winner', () => {
+    it('should not modify the aiCards or the winner', function() {
       const newState = gameReducer(this.initialState.game, this.hitUser)
       expect(newState.aiCards).toEqual([])
       expect(newState.winner).toEqual(null)
     })
   })
   
-  describe('"HIT_AI" case', () =>{
+  describe('"HIT_AI" case', function() {
     
-    beforeEach(()=>{
+    beforeEach(function() {
       this.hitAi = {
         type: "HIT_AI",
         payload:{
@@ -207,22 +206,22 @@ describe('gameReducer', () => {
       }
     })
     
-    it('should remove one card from the deck and add it to the aiCards', () => {
+    it('should remove one card from the deck and add it to the aiCards', function() {
       const newState = gameReducer(this.initialState.game, this.hitAi)
       expect(newState.deck.length).toEqual(51)
       expect(newState.aiCards.length).toEqual(1)
     })
     
-    it('should not modify the  userCards or the winner', () => {
+    it('should not modify the  userCards or the winner', function() {
       const newState = gameReducer(this.initialState.game, this.hitAi)
       expect(newState.userCards).toEqual([])
       expect(newState.winner).toEqual(null)
     })
   })
   
-  describe('"SET_WINNER" case', () =>{
+  describe('"SET_WINNER" case', function() {
     
-    it('can set the winner as AI', () => {
+    it('can set the winner as AI', function() {
       const newState = gameReducer(this.initialState.game, {
         type: "SET_WINNER",
         payload: {winner: "AI"}
@@ -230,7 +229,7 @@ describe('gameReducer', () => {
       expect(newState.winner).toEqual("AI")
     })
     
-    it('can set the winner as USER', () => {
+    it('can set the winner as USER', function() {
       const newState = gameReducer(this.initialState.game, {
         type: "SET_WINNER",
         payload: {winner: "USER"}
@@ -238,7 +237,7 @@ describe('gameReducer', () => {
       expect(newState.winner).toEqual("USER")
     })
     
-    it('does not modify deck, userCards, or aiCards', () => {
+    it('does not modify deck, userCards, or aiCards', function() {
       const newState = gameReducer(this.initialState.game, {
         type: "SET_WINNER",
         payload: {winner: "AI"}
@@ -249,13 +248,13 @@ describe('gameReducer', () => {
     })
   })
 
-  describe('"RESET_GAME" case', () =>{
-    it('should set the same to initial state', () => {
+  describe('"RESET_GAME" case', function() {
+    it('should set the same to initial state', function() {
       const newState = gameReducer(undefined, {type: 'RESET_GAME'})
       expect(newState.userCards).toEqual([])
       expect(newState.aiCards).toEqual([])
       expect(newState.deck.length).toEqual(52)
-      expect(newState.deck).toEqual(initialState.game.deck)
+      expect(newState.deck).toEqual(this.initialState.game.deck)
       expect(newState.winner).toEqual(null)
     })
   })
