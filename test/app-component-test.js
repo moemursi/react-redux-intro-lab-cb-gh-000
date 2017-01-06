@@ -110,34 +110,24 @@ describe('<App/>', function () {
 
   it('should use mapDispatchToProps to pass the action creator functions to the component under this.props.actions', function() {
     const { wrapper } = setup()
-    expect(Object.keys(wrapper.node.props.actions)).toEqual(["executeRound", "resetGame"])
+    console.log(`my keys are ${Object.keys(wrapper.node.props)}`)
+    expect(Object.keys(wrapper.node.props.actions)).toEqual(["resetGame", "startGame", "hitAI", "hitUser", "setWinner"])
   })
-
-  it('should dispatch the executeRound action creator when the components playRound function is called', function() {
-    const {wrapper} = setup()
-    const executeRound = sinon.spy(wrapper.shallow().instance().props.actions, 'executeRound')
-    wrapper.shallow().instance().playRound()    
-    expect(executeRound.calledOnce).toEqual(true)
-  })
-
-  it('should dispatch the resetGame action creator when the components reset function is called', function() {
-    const {wrapper} = setup()
-    const resetGame = sinon.spy(wrapper.shallow().instance().props.actions, 'resetGame')
-    wrapper.shallow().instance().reset()    
-    expect(resetGame.calledOnce).toEqual(true)
+  
+  describe('newGame', function(){
+    it('should have a function called "newGame"', function(){
+      const {wrapper} = setup()
+      expect(wrapper.newGame).toExist;
+      expect(wrapper.newGame).toBeAFunction
+    })
+    it('should dispatch the `resetGame` and `startGame` action creators', function(){
+      const {wrapper} = setup()
+      const resetGame = sinon.spy(wrapper.shallow().instance().props.actions, 'resetGame')
+      const startGame = sinon.spy(wrapper.shallow().instance().props.actions, 'startGame')
+      wrapper.shallow().instance().newGame()    
+      expect(resetGame.calledOnce).toEqual(true)
+      expect(startGame.calledOnce).toEqual(true)
+    })
   })
  
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
