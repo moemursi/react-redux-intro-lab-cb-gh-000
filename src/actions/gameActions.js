@@ -48,10 +48,6 @@ export function hitUser(deck, userCards){
   return {type: "HIT_USER", payload: payload}
 }
 
-export function setWinner(winner){
-  return {type: "SET_WINNER", payload: {winner: winner} }
-}
-
 const getRandCard = (deck) =>{
   let randNum = Math.floor(Math.random()*deck.length);
   return deck.splice(randNum,1)[0]
