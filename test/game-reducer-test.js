@@ -178,7 +178,7 @@ describe('gameReducer', () => {
         type: "SET_WINNER",
         payload: {winner: "AI"}
       })
-      expect(newState.deck.legnth).toEqual(52)
+      expect(newState.deck.length).toEqual(52)
       expect(newState.userCards).toEqual([])
       expect(newState.aiCards).toEqual([])
     })
