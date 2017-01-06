@@ -111,7 +111,7 @@ describe('<App/>', function () {
   it('should use mapDispatchToProps to pass the action creator functions to the component under this.props.actions', function() {
     const { wrapper } = setup()
     console.log(`my keys are ${Object.keys(wrapper.node.props)}`)
-    expect(Object.keys(wrapper.node.props.actions)).toEqual(["resetGame", "startGame", "hitAI", "hitUser", "setWinner"])
+    expect(Object.keys(wrapper.node.props.actions)).toEqual(["resetGame", "startGame", "hitAI", "hitUser"])
   })
   
   describe('newGame', function(){
@@ -129,5 +129,20 @@ describe('<App/>', function () {
       expect(startGame.calledOnce).toEqual(true)
     })
   })
- 
+  
+  describe('aiTurn()', function(){
+    it('should call `hitAi` from your actions', function(){
+      const {wrapper} = setup()
+      const hitAI = sinon.spy(wrapper.shallow().instance().props.actions, 'hitAI')
+      const userScore = wrapper.shallow().instance().props.game.userCards.reduce((sum,c)=>{
+        return sum + c.value
+      }, 0)
+      wrapper.shallow().instance().aiTurn()    
+      expect(hitAI.calledWith(
+        wrapper.shallow().instance().props.game.deck,
+        wrapper.shallow().instance().props.game.aiCards,
+        userScore
+      )).toEqual(true)
+    })
+  }) 
 });
