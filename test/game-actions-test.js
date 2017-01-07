@@ -103,13 +103,4 @@ describe('game actions', () => {
       expect(hitUserPayload.userCards.length).toEqual(userCards.length + 1)
     })
   })
-  
-  describe('setWinner()', function(){
-    it('returns with `type` "HIT_USER"', function(){
-      expect(gameActions.setWinner("user").type).toEqual("SET_WINNER");
-    })
-    it('returns with a `payload` of the new winner', function(){
-      expect(gameActions.setWinner("user").payload.winner).toEqual("user");
-    })
-  })
 })
