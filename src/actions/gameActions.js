@@ -3,20 +3,19 @@ export function resetGame(){
 }
 
 export function startGame(deck){
-  console.log("ping")
-  const newDeck = JSON.parse(JSON.stringify(deck))
+  const newDeck = deck.slice()
   
   const newUserCards = [getRandCard(newDeck), getRandCard(newDeck)];
   const newAiCards = [getRandCard(newDeck), getRandCard(newDeck)];
   
-  const payload = {deck: newDeck, userCards: newUserCards, aiCards: newAiCards}
+  // const payload = {deck: newDeck, userCards: newUserCards, aiCards: newAiCards}
   
-  return {type: "START_GAME", payload: payload}
+  return {type: "START_GAME", deck: newDeck, userCards: newUserCards, aiCards: newAiCards}
 }
 
 export function hitAI(deck, aiCards, userScore){
-  const newDeck = JSON.parse(JSON.stringify(deck));
-  const newAiCards = [...JSON.parse(JSON.stringify(aiCards))]
+  const newDeck = deck.slice();
+  const newAiCards = aiCards.slice();
   let winner = null
   
   while(userScore >= newAiCards.reduce((sum, card) => sum+card.value, 0)){
@@ -29,23 +28,23 @@ export function hitAI(deck, aiCards, userScore){
     winner = "AI"
   }
 
-  const payload = {deck: newDeck, aiCards: newAiCards, winner: winner}
+  // const payload = {deck: newDeck, aiCards: newAiCards, winner: winner}
   
-  return {type: "HIT_AI", payload: payload}
+  return {type: "HIT_AI", deck: newDeck, aiCards: newAiCards, winner: winner}
 }
 
 export function hitUser(deck, userCards){
-  const newDeck = JSON.parse(JSON.stringify(deck));
+  const newDeck = deck.slice();
   let winner = null;
   
-  const newUserCards = [...JSON.parse(JSON.stringify(userCards)), getRandCard(newDeck)];
+  const newUserCards = [...userCards.slice(), getRandCard(newDeck)];
 
   if (newUserCards.reduce((sum, c) => sum+c.value, 0) === 21) winner = "User"
   if (newUserCards.reduce((sum, c) => sum+c.value, 0) > 21) winner = "AI"
 
-  const payload = {deck: newDeck, userCards: newUserCards, winner: winner}
+  // const payload = {deck: newDeck, userCards: newUserCards, winner: winner}
   
-  return {type: "HIT_USER", payload: payload}
+  return {type: "HIT_USER", deck: newDeck, userCards: newUserCards, winner: winner}
 }
 
 const getRandCard = (deck) =>{
