@@ -93,14 +93,24 @@ describe('game actions', () => {
     it('returns with `type` "HIT_USER"', function(){
       expect(gameActions.hitUser(this.deck, []).type).toEqual("HIT_USER")
     })
-    it('returns with a `payload` with one less in the `deck`', function(){
-      const hitUserPayload = gameActions.hitUser(this.deck, []).payload;
-      expect(hitUserPayload.deck.length).toEqual(this.deck.length - 1);
+    it('returns with an object with one less card in the `deck`', function(){
+      const hitUserAction = gameActions.hitUser(this.deck, []);
+      expect(hitUserAction.deck.length).toEqual(this.deck.length - 1);
     })
-    it('returns with a `payload` with one more in the `userCards`', function(){
+    it('returns with an object with one more card in the `userCards`', function(){
       const userCards = [];
-      const hitUserPayload = gameActions.hitUser(this.deck, userCards).payload;
-      expect(hitUserPayload.userCards.length).toEqual(userCards.length + 1)
+      const hitUserAction = gameActions.hitUser(this.deck, userCards);
+      expect(hitUserAction.userCards.length).toEqual(userCards.length + 1)
+    })
+    it('returns with an object with a non-null `winner` if the user score is 21 or over 21', function(){
+      const userCards = [ {name:"King of Clubs", value: 10}, {name:"King of Hearts", value: 10} ];
+      const hitUserAction = gameActions.hitUser(this.deck, userCards);
+      expect(hitUserAction.winner).toNotEqual(null)
+    })
+    it('returns with an object with a `winner` of null if the user does not yet have 21 or more points', function(){
+      const userCards = [];
+      const hitUserAction = gameActions.hitUser(this.deck, userCards);
+      expect(hitUserAction.winner).toEqual(null)
     })
   })
 })
