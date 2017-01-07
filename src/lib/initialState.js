@@ -1,4 +1,4 @@
-export const deck = [
+export const initialDeck = [
  {name:"Ace of Diamonds", value: 1},
  {name:"Ace of Spades", value: 1},
  {name:"Ace of Clubs", value: 1},
@@ -57,5 +57,5 @@ export const initialState = {
   winner: null,
   userCards: [],
   aiCards: [],
-  deck: deck
+  deck: initialDeck
 }
