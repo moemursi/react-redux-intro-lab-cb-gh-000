@@ -7,9 +7,7 @@ export function startGame(deck){
   
   const newUserCards = [getRandCard(newDeck), getRandCard(newDeck)];
   const newAiCards = [getRandCard(newDeck), getRandCard(newDeck)];
-  
-  // const payload = {deck: newDeck, userCards: newUserCards, aiCards: newAiCards}
-  
+
   return {type: "START_GAME", deck: newDeck, userCards: newUserCards, aiCards: newAiCards}
 }
 
@@ -28,8 +26,6 @@ export function hitAI(deck, aiCards, userScore){
     winner = "AI"
   }
 
-  // const payload = {deck: newDeck, aiCards: newAiCards, winner: winner}
-  
   return {type: "HIT_AI", deck: newDeck, aiCards: newAiCards, winner: winner}
 }
 
@@ -42,8 +38,6 @@ export function hitUser(deck, userCards){
   if (newUserCards.reduce((sum, c) => sum+c.value, 0) === 21) winner = "User"
   if (newUserCards.reduce((sum, c) => sum+c.value, 0) > 21) winner = "AI"
 
-  // const payload = {deck: newDeck, userCards: newUserCards, winner: winner}
-  
   return {type: "HIT_USER", deck: newDeck, userCards: newUserCards, winner: winner}
 }
 
