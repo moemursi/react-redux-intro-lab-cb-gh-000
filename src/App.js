@@ -29,7 +29,6 @@ class App extends Component {
   newGame(){
     this.props.actions.resetGame();
     this.props.actions.startGame(this.props.game.deck);
-    console.log(this.props.game.userCards.map(c=>c.name))
   }
 
   render() {
@@ -46,7 +45,7 @@ class App extends Component {
           newGame = {this.newGame}
           hitUser = {this.props.actions.hitUser}
           calculateScore = {this.calculateScore}
-          stay = {this.aiTurn}
+          aiTurn = {this.aiTurn}
         />
       </div>
     );
