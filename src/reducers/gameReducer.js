@@ -1,7 +1,5 @@
 import { initialState } from '../lib/initialState';
 
-console.log(initialState)
-
 export default function gameReducer(state=initialState, action) {
   switch(action.type){
     case 'START_GAME':
