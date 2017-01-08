@@ -11,15 +11,11 @@ Build a Redux implementation of a simple blackjack game!
 
 ## Instructions
 
-Your goal is to build a very simple version of Blackjack. In our version of the game, a user should be able to click a button, "hit me", to get a new card dealt to them. When they click this button, their total points will be incremented as a result of this new card being dealt to them.
+Your goal is to build a very simple version of Blackjack. In our version of the game, a user should be able to click a button, "Hit Me", to get a new card dealt to them. When they click this button, their total points will be incremented as a result of this new card being dealt to them.
 
-Every time a card is dealt to the user, a card should be dealt to our AI player as well. 
+The user can hit as many times as they like, but if they go over 21, they will lose. At any point, the user can click the "Stay" button. This will kick off the AI logic to keep hitting until they have more points than the user. 
 
-A user wins if they hit exactly 21 points or if the AI player loses by exceeding 21 points. The user loses if they exceed 21 points or if the AI player wins by hitting exactly 21 points.
-
-It should work like this:
-
-![](https://s3-us-west-2.amazonaws.com/curriculum-content/web-development/react/blackjack_redux.gif)
+A user wins if they hit exactly 21 points or if the AI player gets more than 21 points in trying to outscore the user. 
 
 Clone down this lab, run `npm install` and `npm test` to get started. This is a complicated assignment, so read the instructions below very carefully.
 
@@ -99,26 +95,18 @@ const initialState = {
 
 ```
 
-### Step 1: Buid the Store, Reducer and Action Creators
+### Step 1: Build the Store, Reducer and Action Creators
 
 First things first, use the Redux `configureStore` function to create a store with a reducer. Build a reducer, `gameReducer`, that can respond to the following actions:
 
-* `executeRound`
-* `resetGame`
+* `resetGame` - Return action with type `"RESET_GAME"`
+* `startGame` - Takes in a `deck` as an argument and returns and action with type `"START_GAME"`, `userCards`, `aiCards` and a `deck` with the remaining cards
+* `hitUser` - Takes in a `deck` and the `userCards` and returns and action with a type `"HIT_USER"`, the new `userCards`, and a `winner` (`null` if one cannot be determined, `User` if the user get's 21)
+* `hitAI` - Takes in a `deck`, the `aiCards`, and the current user's score and returns an action with a type `"HIT_AI"`, the new `aiCards`, the `deck`, and the `winner` (`AI` if it gets more points than the user without going over 21, `User` if the AI goes over 21). This action should keep drawing cards for the AI until it has a higher point value than the user. 
 
-The reducer should respond to the `executeRound` action by:
+>Note: You can test just these actions by running `npm test test/game-actions-test.js`. This is really helpful to break down large labs!
 
-* Dealing one card to the user (i.e. removing a card from the state's deck property and putting it in the user card collection)
-* Dealing one card to the AI player (i.e. removing another card from the state's deck property and putting it in the AI card collection) 
-* Checking to see if there is a winner
-* Returning a new copy of game state with the new user card and AI card collections, the new deck collection (with the two cards you dealt from it having been removed) and a new value for `winner`, if applicable. 
-
-In order to determine whether or not there is a winner, you will have to think about the following:
-
-* The user wins if they have a point total of exactly 21 OR if the computer has a point total that exceeds 21. If this is the case, the value of `winner` should be set to: `You win!`
-* The computer wins if the AI player has a point total of exactly 21. If this is the case, the value of `winner` should be set to `Computer wins!`.
-* If the user has a point value that exceeds 21, the computer wins and the value of `winner` should be set to `You lose :(`
-
+The reducer should respond to each of these actions by using `Object.assign()` to return a full new state.
 
 The reducer should respond to the `resetGame` action by returning the original version of state, `initialState.game`. 
 
@@ -134,30 +122,26 @@ Finally, use `connect` to connect `App` to the store.
 
 `App` will render a child component, `Game`. 
 
+The `App` component should have three functions defined:
+
+* `calculateScore` - Should take in a hand as an argument and return the total
+* `newGame` - Should dispatch the `resetGame` action and the `startGame` action
+* `aiTurn` - Should dispatch the `hitAI` action 
+
+All of these functions need to be passed down to `Game` as props. 
+
 `Game` is a functional component that renders the following info under the following conditions:
 
 * If there is no winner:
   * display the user total in a `<p>` tag with a class of `'user-total'`
-  * display a button with a class of `play` and text of "hit me"
+  * display a button with a class of `hitMe` and text of "Hit Me"
 * If there is a winner:
   * display the winner in a `<p>` tag with a class of `'winner'`
   * display the user total in a `<p>` tag with a class of `'user-total'`
-  * display the computer total in a `<p>` tag with a class of `'computer-total'`
-  * display a button with a class of `'reset'` and text of `"play again"`
+  * display the computer total in a `<p>` tag with a class of `'ai-total'`
+  * display a button with a class of `'newGame'` and text of `"New Game"`
 
-The `App` component should have two functions defined:
 
-* `playRound`
-* `reset`
+In the `Game` component, when a user clicks on the `"Hit Me"` button, it should invoke the `hitUser` action, which will in turn tell `App` to run `hitUser`, thus dispatching that action to the reducer and updating application state. 
 
-The `playRound` function dispatches the `executeRound` action via `this.props.actions.executeRound`. 
-
-The `reset` function dispatches the `resetGame` action via `this.props.actions.resetGame`. 
-
-Both of these functions need to be passed down to `Game` as props. 
-
-Pass `playRound` to `Game` under a prop of `triggerExecuteRound` and pass `reset` to `Game` under a prop of `triggerResetGame`. 
-
-In the `Game` component, when a user clicks on the `"hit me"` button, it should invoke the `triggerExecuteRound` function from props, which will in turn tell `App` to run `this.props.actions.executeRound`, thus dispatching that action to the reducer and updating application state. 
-
-Similarly, in the `Game` component, when a user clicks on the `"play again"` button, it should inovke the `triggerResetGame` function from props, which will tell `App` to run `this.props.actions.resetGame`, thus dispatching *that* action to the reducer and updating application state. 
+Similarly, in the `Game` component, when a user clicks on the `"New Game"` button, it should invoke the `newGame` function from props.
