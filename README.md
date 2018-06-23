@@ -14,7 +14,7 @@ Clone down this lab and run `npm install`.
 
 Run the test suite via `npm test`. `mocha.run()` will not work.
 
-#### Intro
+#### Introdd
 
 You were just hired by the fast-growing international baking conglomerate, Flatiron Bakery. You're first assignment is to work on this simple React + Redux inventory application.The app should have the following features:
 
